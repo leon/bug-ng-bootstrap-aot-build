@@ -1,28 +1,47 @@
-# BugAotBuild
+# Bug when building for production
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-rc.4.
+# Developing works
 
-## Development server
+```bash
+yarn start
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+```
+$ ng serve 
+** NG Live Development Server is running on http://localhost:4200 **
+Hash: 888ec32125e57675671c                                                              
+Time: 8119ms
+chunk    {0} polyfills.bundle.js, polyfills.bundle.js.map (polyfills) 158 kB {4} [initial] [rendered]
+chunk    {1} main.bundle.js, main.bundle.js.map (main) 3.82 kB {3} [initial] [rendered]
+chunk    {2} styles.bundle.js, styles.bundle.js.map (styles) 9.77 kB {4} [initial] [rendered]
+chunk    {3} vendor.bundle.js, vendor.bundle.js.map (vendor) 2.57 MB [initial] [rendered]
+chunk    {4} inline.bundle.js, inline.bundle.js.map (inline) 0 bytes [entry] [rendered]
+webpack: Compiled successfully.
+```
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
+# Build with AOT fails
 
-## Build
+```bash
+yarn build
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+```
+$ ng build --aot 
+ 10% building modules 3/3 modules 0 activeCould not resolve module 'function toString() { [native code] }' relative to file /Users/leon/Temp/bug-aot-build/node_modules/@ng-bootstrap/ng-bootstrap/util/util.d.ts
+Hash: ffa896c7e882276dae4e                                                              
+Time: 2665ms
+chunk    {0} polyfills.bundle.js, polyfills.bundle.js.map (polyfills) 158 kB {4} [initial] [rendered]
+chunk    {1} styles.bundle.js, styles.bundle.js.map (styles) 9.77 kB {4} [initial] [rendered]
+chunk    {2} main.bundle.js, main.bundle.js.map (main) 1.09 kB {3} [initial] [rendered]
+chunk    {3} vendor.bundle.js, vendor.bundle.js.map (vendor) 805 kB [initial] [rendered]
+chunk    {4} inline.bundle.js, inline.bundle.js.map (inline) 0 bytes [entry] [rendered]
 
-## Running unit tests
+ERROR in m.replace is not a function
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+ERROR in ./src/main.ts
+Module not found: Error: Can't resolve './$$_gendir/app/app.module.ngfactory' in '/Users/leon/Temp/bug-aot-build/src'
+ @ ./src/main.ts 4:0-74
+ @ multi ./src/main.ts
+error Command failed with exit code 1.
+```
